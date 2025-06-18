@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  password      String?
+  image         String?
+  role          String    @default("user") // can be "admin" or "user"
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  attempts      QuestionAttempt[]
+  mockTests     MockTestAttempt[]
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId           String
+  type             String
+  provider         String
+  providerAccountId String
+  refresh_token    String?
+  access_token     String?
+  expires_at       Int?
+  token_type       String?
+  scope            String?
+  id_token         String?
+  session_state    String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Question {
+  id            String    @id @default(uuid())
+  text          String
+  optionA       String
+  optionB       String
+  optionC       String
+  optionD       String
+  correctOption String
+  explanation   String
+  year          Int?
+  subject       String
+  topic         String
+  difficulty    String
+  createdBy     String
+  isFree        Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  attempts      QuestionAttempt[]
+  mockTests     MockTest[]
+}
+
+model QuestionAttempt {
+  id           String   @id @default(uuid())
+  userId       String
+  questionId   String
+  answer       String   // Changed from Int to String to match A, B, C, D format
+  isCorrect    Boolean
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model MockTest {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  duration    Int       // in minutes
+  totalMarks  Int
+  isFree      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  questions   Question[]
+  attempts    MockTestAttempt[]
+}
+
+model MockTestAttempt {
+  id         String   @id @default(uuid())
+  userId     String
+  mockTestId String
+  score      Int
+  startedAt  DateTime @default(now())
+  endedAt    DateTime?
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mockTest   MockTest @relation(fields: [mockTestId], references: [id])
+}
+
+model SubjectNote {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  subject     String
+  topic       String
+  isFree      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+} 
