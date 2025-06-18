@@ -85,7 +85,7 @@ export async function GET() {
       }),
 
       // Progress by subject
-      prisma.$queryRaw`
+      prisma.$queryRaw<SubjectProgress[]>`
         WITH SubjectCounts AS (
           SELECT 
             subject,
