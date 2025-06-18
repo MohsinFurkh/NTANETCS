@@ -13,8 +13,8 @@ interface DifficultyStats {
   accuracy: number | bigint;
 }
 
-async function getDifficultyStats() {
-  const difficulties = await prisma.$queryRaw`
+async function getDifficultyStats(): Promise<DifficultyStats[]> {
+  const difficulties = await prisma.$queryRaw<DifficultyStats[]>`
     WITH DifficultyStats AS (
       SELECT 
         difficulty,
