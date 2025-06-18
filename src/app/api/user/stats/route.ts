@@ -13,16 +13,6 @@ interface MockTestStat {
   };
 }
 
-interface QuestionAttempt {
-  id: string;
-  isCorrect: boolean;
-  createdAt: Date;
-  question: {
-    text: string;
-    subject: string;
-  };
-}
-
 interface SubjectProgress {
   subject: string;
   totalQuestions: number;
@@ -40,7 +30,7 @@ interface RecentAttempt {
   };
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
 
@@ -176,7 +166,7 @@ export async function GET(request: Request) {
     // Calculate average mock test score
     const averageMockScore = mockTestStats.length > 0
       ? Math.round(
-          mockTestStats.reduce((acc: number, test: any) => acc + (test.score / test.mockTest.totalMarks) * 100, 0) /
+          mockTestStats.reduce((acc: number, test: MockTestStat) => acc + (test.score / test.mockTest.totalMarks) * 100, 0) /
           mockTestStats.length
         )
       : 0;

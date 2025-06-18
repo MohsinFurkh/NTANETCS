@@ -73,7 +73,7 @@ export default function About() {
       <section className="card">
         <h2>Contact Us</h2>
         <p>
-          Have questions or suggestions? We'd love to hear from you. Reach out to
+          Have questions or suggestions? We&apos;d love to hear from you. Reach out to
           us at:
         </p>
         <div className="mt-4">

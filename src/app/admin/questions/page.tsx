@@ -15,10 +15,6 @@ interface QuestionForm {
   isFree: boolean;
 }
 
-interface Option {
-  value: string;
-}
-
 const initialForm: QuestionForm = {
   text: '',
   options: ['', '', '', ''],

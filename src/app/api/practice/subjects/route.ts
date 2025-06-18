@@ -41,7 +41,12 @@ export async function GET() {
     `;
 
     // Convert BigInt values to numbers before sending response
-    const serializedStats = subjectsWithStats.map((stat: any) => ({
+    const serializedStats = (subjectsWithStats as Array<{
+      subject: string;
+      totalQuestions: bigint | number;
+      attempted: bigint | number;
+      accuracy: number | bigint;
+    }>).map((stat) => ({
       ...stat,
       totalQuestions: Number(stat.totalQuestions),
       attempted: Number(stat.attempted),

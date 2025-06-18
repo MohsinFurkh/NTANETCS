@@ -36,7 +36,7 @@ const SUBJECTS = [
 const DIFFICULTY_LEVELS = ['Easy', 'Medium', 'Hard'];
 
 export default function AddNewQuestion() {
-  const { data: session, status } = useSession({
+  const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
       window.location.href = '/auth/login';
