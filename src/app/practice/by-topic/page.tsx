@@ -13,8 +13,8 @@ interface TopicStats {
   accuracy: number | bigint;
 }
 
-async function getTopicStats() {
-  const topics = await prisma.$queryRaw`
+async function getTopicStats(): Promise<TopicStats[]> {
+  const topics = await prisma.$queryRaw<TopicStats[]>`
     WITH TopicStats AS (
       SELECT 
         topic,
