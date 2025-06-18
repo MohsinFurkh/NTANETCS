@@ -57,7 +57,7 @@ export default function AdminQuestions() {
       setMessage({ type: 'success', text: 'Question added successfully!' });
       setForm(initialForm);
       router.refresh();
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Failed to add question. Please try again.' });
     } finally {
       setIsSubmitting(false);
