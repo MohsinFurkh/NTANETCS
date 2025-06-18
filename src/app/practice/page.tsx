@@ -1,25 +1,8 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function PracticePage() {
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      window.location.href = '/auth/login';
-    },
-  });
-
-  if (status === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Practice Questions</h1>

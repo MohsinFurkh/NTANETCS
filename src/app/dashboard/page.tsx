@@ -31,6 +31,31 @@ interface SubjectProgress {
   accuracy: number;
 }
 
+interface SubjectProgressDisplay {
+  subject: string;
+  totalQuestions: number;
+  attempted: number;
+  accuracy: number;
+  progress: number;
+}
+
+interface RecentAttemptDisplay {
+  id: string;
+  isCorrect: boolean;
+  date: Date;
+  questionText: string;
+  subject: string;
+}
+
+interface MockTestDisplay {
+  title: string;
+  score: number;
+  totalMarks: number;
+  percentage: number;
+  date: Date;
+  duration: number | null;
+}
+
 async function getStats() {
   try {
     const session = await getServerSession(authOptions);
@@ -302,7 +327,7 @@ export default async function DashboardPage() {
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-xl font-semibold mb-4">Subject Progress</h3>
         <div className="space-y-4">
-          {stats.subjectProgress.map((subject: any) => (
+          {stats.subjectProgress.map((subject: SubjectProgressDisplay) => (
             <div key={subject.subject} className="space-y-2">
               <div className="flex justify-between">
                 <span className="font-medium">{subject.subject}</span>
@@ -326,7 +351,7 @@ export default async function DashboardPage() {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-xl font-semibold mb-4">Recent Questions</h3>
           <div className="space-y-4">
-            {stats.recentAttempts.map((attempt: any) => (
+            {stats.recentAttempts.map((attempt: RecentAttemptDisplay) => (
               <div key={attempt.id} className="border-l-4 pl-4 py-2 space-y-1" 
                 style={{ borderColor: attempt.isCorrect ? '#10B981' : '#EF4444' }}>
                 <p className="text-sm font-medium truncate">{attempt.questionText}</p>
@@ -342,7 +367,7 @@ export default async function DashboardPage() {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-xl font-semibold mb-4">Recent Mock Tests</h3>
           <div className="space-y-4">
-            {stats.mockTestStats.map((test: any, index: number) => (
+            {stats.mockTestStats.map((test: MockTestDisplay, index: number) => (
               <div key={index} className="border-l-4 border-blue-600 pl-4 py-2 space-y-1">
                 <p className="font-medium">{test.title}</p>
                 <div className="flex justify-between text-sm text-gray-600">

@@ -40,7 +40,7 @@ export default async function RandomPracticePage() {
 
   const user = await prisma.user.findUnique({
     where: {
-      email: session.user?.email!,
+      email: session.user?.email || '',
     },
     select: {
       id: true,

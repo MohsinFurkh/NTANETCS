@@ -77,7 +77,7 @@ export async function GET(request: Request) {
     const year = searchParams.get('year');
 
     // Build the filter
-    const filter: any = {};
+    const filter: Record<string, unknown> = {};
     if (subject) filter.subject = subject;
     if (topic) filter.topic = topic;
     if (difficulty) filter.difficulty = difficulty;

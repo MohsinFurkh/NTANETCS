@@ -6,6 +6,13 @@ import prisma from '@/lib/prisma';
 import PracticeLayout from '@/components/PracticeLayout';
 import Link from 'next/link';
 
+interface YearStats {
+  year: number | string | bigint;
+  total_questions: number | bigint;
+  attempted_questions: number | bigint;
+  accuracy: number | bigint;
+}
+
 async function getYearStats() {
   const years = await prisma.$queryRaw`
     WITH YearStats AS (
@@ -61,7 +68,7 @@ export default async function YearwisePracticePage() {
     <PracticeLayout>
       <h1 className="text-2xl font-bold mb-6">Practice by Year</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {yearStats.map((year: any) => (
+        {yearStats.map((year: YearStats) => (
           <Link
             key={year.year}
             href={`/practice/by-year/${year.year}`}

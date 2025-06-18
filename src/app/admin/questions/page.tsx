@@ -15,6 +15,10 @@ interface QuestionForm {
   isFree: boolean;
 }
 
+interface Option {
+  value: string;
+}
+
 const initialForm: QuestionForm = {
   text: '',
   options: ['', '', '', ''],
@@ -97,7 +101,7 @@ export default function AdminQuestions() {
         {/* Options */}
         <div className="space-y-4">
           <label className="block text-sm font-medium">Options</label>
-          {form.options.map((option, index) => (
+          {form.options.map((option: string, index: number) => (
             <div key={index} className="flex gap-4 items-center">
               <input
                 type="radio"

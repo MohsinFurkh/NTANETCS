@@ -6,6 +6,13 @@ import prisma from '@/lib/prisma';
 import PracticeLayout from '@/components/PracticeLayout';
 import Link from 'next/link';
 
+interface TopicStats {
+  topic: string;
+  total_questions: number | bigint;
+  attempted_questions: number | bigint;
+  accuracy: number | bigint;
+}
+
 async function getTopicStats() {
   const topics = await prisma.$queryRaw`
     WITH TopicStats AS (
@@ -61,7 +68,7 @@ export default async function TopicwisePracticePage() {
     <PracticeLayout>
       <h1 className="text-2xl font-bold mb-6">Practice by Topic</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {topicStats.map((topic: any) => (
+        {topicStats.map((topic: TopicStats) => (
           <Link
             key={topic.topic}
             href={`/practice/by-topic/${encodeURIComponent(topic.topic)}`}

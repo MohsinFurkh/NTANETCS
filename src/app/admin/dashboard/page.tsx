@@ -26,6 +26,16 @@ interface DashboardStats {
   }>;
 }
 
+interface QuestionsBySubject {
+  subject: string;
+  _count: number;
+}
+
+interface QuestionsByYear {
+  year: number;
+  _count: number;
+}
+
 export default function AdminDashboard() {
   const { data: session, status } = useSession({
     required: true,
@@ -103,7 +113,7 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {stats.questionsBySubject.map((item) => (
+              {stats.questionsBySubject.map((item: QuestionsBySubject) => (
                 <tr key={item.subject}>
                   <td className="px-6 py-4 whitespace-nowrap">{item.subject}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item._count}</td>
@@ -126,7 +136,7 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {stats.questionsByYear.map((item) => (
+              {stats.questionsByYear.map((item: QuestionsByYear) => (
                 <tr key={item.year}>
                   <td className="px-6 py-4 whitespace-nowrap">{item.year}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item._count}</td>

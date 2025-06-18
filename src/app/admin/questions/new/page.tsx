@@ -263,7 +263,7 @@ export default function AddNewQuestion() {
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               >
-                {SUBJECTS.map(subject => (
+                {SUBJECTS.map((subject: string) => (
                   <option key={subject} value={subject}>
                     {subject}
                   </option>
@@ -316,7 +316,7 @@ export default function AddNewQuestion() {
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               >
-                {DIFFICULTY_LEVELS.map(level => (
+                {DIFFICULTY_LEVELS.map((level: string) => (
                   <option key={level} value={level}>
                     {level}
                   </option>

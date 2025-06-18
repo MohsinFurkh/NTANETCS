@@ -23,6 +23,23 @@ interface QuestionAttempt {
   };
 }
 
+interface SubjectProgress {
+  subject: string;
+  totalQuestions: number;
+  attempted: number;
+  accuracy: number;
+}
+
+interface RecentAttempt {
+  id: string;
+  isCorrect: boolean;
+  createdAt: Date;
+  question: {
+    text: string;
+    subject: string;
+  };
+}
+
 export async function GET(request: Request) {
   try {
     const session = await getServerSession(authOptions);
@@ -172,11 +189,11 @@ export async function GET(request: Request) {
         accuracy,
         averageMockScore,
       },
-      subjectProgress: subjectProgress.map((subject: any) => ({
+      subjectProgress: subjectProgress.map((subject: SubjectProgress) => ({
         ...subject,
-        progress: Math.round((subject.attempted / subject.totalQuestions) * 100),
+        progress: Math.round((Number(subject.attempted) / Number(subject.totalQuestions)) * 100),
       })),
-      recentAttempts: recentAttempts.map((attempt: QuestionAttempt) => ({
+      recentAttempts: recentAttempts.map((attempt: RecentAttempt) => ({
         id: attempt.id,
         isCorrect: attempt.isCorrect,
         date: attempt.createdAt,

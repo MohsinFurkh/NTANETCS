@@ -159,7 +159,7 @@ export default function SubjectQuestionPage({ params }: { params: Promise<{ subj
 
           {/* Options */}
           <div className="space-y-4">
-            {['A', 'B', 'C', 'D'].map((option) => (
+            {['A', 'B', 'C', 'D'].map((option: string) => (
               <button
                 key={option}
                 onClick={() => handleOptionSelect(option)}

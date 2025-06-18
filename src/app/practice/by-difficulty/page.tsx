@@ -6,6 +6,13 @@ import prisma from '@/lib/prisma';
 import PracticeLayout from '@/components/PracticeLayout';
 import Link from 'next/link';
 
+interface DifficultyStats {
+  difficulty: string;
+  total_questions: number | bigint;
+  attempted_questions: number | bigint;
+  accuracy: number | bigint;
+}
+
 async function getDifficultyStats() {
   const difficulties = await prisma.$queryRaw`
     WITH DifficultyStats AS (
@@ -73,7 +80,7 @@ export default async function DifficultyPracticePage() {
     <PracticeLayout>
       <h1 className="text-2xl font-bold mb-6">Practice by Difficulty</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {difficultyStats.map((difficulty: any) => (
+        {difficultyStats.map((difficulty: DifficultyStats) => (
           <Link
             key={difficulty.difficulty}
             href={`/practice/by-difficulty/${difficulty.difficulty.toLowerCase()}`}
