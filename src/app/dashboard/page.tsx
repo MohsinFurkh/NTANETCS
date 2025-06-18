@@ -106,7 +106,7 @@ async function getStats() {
       }).then((attempts: PrismaQuestionAttempt[]) => attempts.length),
 
       // Progress by subject
-      prisma.$queryRaw`
+      prisma.$queryRaw<SubjectProgress[]>`
         WITH SubjectCounts AS (
           SELECT 
             subject,
@@ -135,7 +135,7 @@ async function getStats() {
       `,
 
       // Recent attempts (last 5 unique questions, taking the most recent attempt)
-      prisma.$queryRaw`
+      prisma.$queryRaw<QuestionAttempt[]>`
         WITH RankedAttempts AS (
           SELECT 
             qa.id,

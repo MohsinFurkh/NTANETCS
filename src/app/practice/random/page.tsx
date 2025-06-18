@@ -7,7 +7,7 @@ import PracticeLayout from '@/components/PracticeLayout';
 
 async function getRandomQuestionId(userId: string) {
   // Get a random question that hasn't been attempted yet
-  const question = await prisma.$queryRaw`
+  const question = await prisma.$queryRaw<{ id: string }[]>`
     WITH UnattemptedQuestions AS (
       SELECT q.id
       FROM Question q
@@ -22,7 +22,7 @@ async function getRandomQuestionId(userId: string) {
 
   // If no unattempted questions, get any random question
   if (!question || question.length === 0) {
-    const anyQuestion = await prisma.$queryRaw`
+    const anyQuestion = await prisma.$queryRaw<{ id: string }[]>`
       SELECT id
       FROM Question
       ORDER BY RANDOM()

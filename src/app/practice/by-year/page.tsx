@@ -13,8 +13,8 @@ interface YearStats {
   accuracy: number | bigint;
 }
 
-async function getYearStats() {
-  const years = await prisma.$queryRaw`
+async function getYearStats(): Promise<YearStats[]> {
+  const years = await prisma.$queryRaw<YearStats[]>`
     WITH YearStats AS (
       SELECT 
         year,
