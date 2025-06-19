@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
+import Image from 'next/image';
 
 const ADMIN_EMAILS = ['mohsinfurkh@gmail.com', 'sayimamukhtar@gmail.com'];
 
@@ -64,17 +65,11 @@ export default function AddNewQuestion() {
     difficulty: 'Medium',
   });
 
-  const [questionImage, setQuestionImage] = useState<File | null>(null);
   const [questionImageUrl, setQuestionImageUrl] = useState<string | null>(null);
-  const [optionAImage, setOptionAImage] = useState<File | null>(null);
   const [optionAImageUrl, setOptionAImageUrl] = useState<string | null>(null);
-  const [optionBImage, setOptionBImage] = useState<File | null>(null);
   const [optionBImageUrl, setOptionBImageUrl] = useState<string | null>(null);
-  const [optionCImage, setOptionCImage] = useState<File | null>(null);
   const [optionCImageUrl, setOptionCImageUrl] = useState<string | null>(null);
-  const [optionDImage, setOptionDImage] = useState<File | null>(null);
   const [optionDImageUrl, setOptionDImageUrl] = useState<string | null>(null);
-  const [explanationImage, setExplanationImage] = useState<File | null>(null);
   const [explanationImageUrl, setExplanationImageUrl] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -85,9 +80,11 @@ export default function AddNewQuestion() {
     }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, setImage: any, setImageUrl: any) => {
+  const handleImageChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setImageUrl: React.Dispatch<React.SetStateAction<string | null>>
+  ) => {
     const file = e.target.files?.[0] || null;
-    setImage(file);
     if (file) {
       setImageUrl(URL.createObjectURL(file));
     } else {
@@ -184,9 +181,9 @@ export default function AddNewQuestion() {
             </div>
             <div className="mt-2">
               <label className="block text-xs font-medium text-gray-500">Optional Image</label>
-              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setQuestionImage, setQuestionImageUrl)} />
+              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setQuestionImageUrl)} />
               {questionImageUrl && (
-                <img src={questionImageUrl} alt="Question" className="mt-2 max-h-32" />
+                <Image src={questionImageUrl} alt="Question" className="mt-2 max-h-32" width={300} height={128} />
               )}
             </div>
           </div>
@@ -214,9 +211,9 @@ export default function AddNewQuestion() {
               </div>
               <div className="mt-2">
                 <label className="block text-xs font-medium text-gray-500">Optional Image</label>
-                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionAImage, setOptionAImageUrl)} />
+                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionAImageUrl)} />
                 {optionAImageUrl && (
-                  <img src={optionAImageUrl} alt="Option A" className="mt-2 max-h-24" />
+                  <Image src={optionAImageUrl} alt="Option A" className="mt-2 max-h-24" width={200} height={96} />
                 )}
               </div>
             </div>
@@ -241,9 +238,9 @@ export default function AddNewQuestion() {
               </div>
               <div className="mt-2">
                 <label className="block text-xs font-medium text-gray-500">Optional Image</label>
-                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionBImage, setOptionBImageUrl)} />
+                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionBImageUrl)} />
                 {optionBImageUrl && (
-                  <img src={optionBImageUrl} alt="Option B" className="mt-2 max-h-24" />
+                  <Image src={optionBImageUrl} alt="Option B" className="mt-2 max-h-24" width={200} height={96} />
                 )}
               </div>
             </div>
@@ -268,9 +265,9 @@ export default function AddNewQuestion() {
               </div>
               <div className="mt-2">
                 <label className="block text-xs font-medium text-gray-500">Optional Image</label>
-                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionCImage, setOptionCImageUrl)} />
+                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionCImageUrl)} />
                 {optionCImageUrl && (
-                  <img src={optionCImageUrl} alt="Option C" className="mt-2 max-h-24" />
+                  <Image src={optionCImageUrl} alt="Option C" className="mt-2 max-h-24" width={200} height={96} />
                 )}
               </div>
             </div>
@@ -295,9 +292,9 @@ export default function AddNewQuestion() {
               </div>
               <div className="mt-2">
                 <label className="block text-xs font-medium text-gray-500">Optional Image</label>
-                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionDImage, setOptionDImageUrl)} />
+                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionDImageUrl)} />
                 {optionDImageUrl && (
-                  <img src={optionDImageUrl} alt="Option D" className="mt-2 max-h-24" />
+                  <Image src={optionDImageUrl} alt="Option D" className="mt-2 max-h-24" width={200} height={96} />
                 )}
               </div>
             </div>
@@ -345,9 +342,9 @@ export default function AddNewQuestion() {
             </div>
             <div className="mt-2">
               <label className="block text-xs font-medium text-gray-500">Optional Image</label>
-              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setExplanationImage, setExplanationImageUrl)} />
+              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setExplanationImageUrl)} />
               {explanationImageUrl && (
-                <img src={explanationImageUrl} alt="Explanation" className="mt-2 max-h-32" />
+                <Image src={explanationImageUrl} alt="Explanation" className="mt-2 max-h-32" width={300} height={128} />
               )}
             </div>
           </div>
