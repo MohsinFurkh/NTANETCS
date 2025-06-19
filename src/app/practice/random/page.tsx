@@ -1,23 +1,38 @@
-const question = await prisma.$queryRaw<{ id: string }[]>`
-  WITH UnattemptedQuestions AS (
-    SELECT q.id
-    FROM question q
-    LEFT JOIN questionattempt qa ON q.id = qa.questionid AND qa.userid = ${userId}
-    WHERE qa.id IS NULL
-  )
-  SELECT id
-  FROM UnattemptedQuestions
-  ORDER BY RANDOM()
-  LIMIT 1
-`;
+import React, { useEffect, useState } from 'react';
 
-// If no unattempted questions, get any random question
-if (!question || question.length === 0) {
-  const anyQuestion = await prisma.$queryRaw<{ id: string }[]>`
-    SELECT id
-    FROM question
-    ORDER BY RANDOM()
-    LIMIT 1
-  `;
-  return anyQuestion[0]?.id;
+export default function RandomQuestionPage() {
+  const [questionId, setQuestionId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchRandomQuestion() {
+      setLoading(true);
+      try {
+        const res = await fetch('/api/practice/random');
+        if (!res.ok) throw new Error('Failed to fetch random question');
+        const data = await res.json();
+        setQuestionId(data.id);
+      } catch (err) {
+        setError('Could not load random question.');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchRandomQuestion();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="text-red-600">{error}</div>;
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">Random Practice Question</h1>
+      {questionId ? (
+        <div>Random Question ID: {questionId}</div>
+      ) : (
+        <div>No question found.</div>
+      )}
+    </div>
+  );
 } 
