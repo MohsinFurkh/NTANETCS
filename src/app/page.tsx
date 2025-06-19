@@ -23,9 +23,9 @@ export default function Home() {
           </h1>
           
           <p className="mt-6 max-w-3xl mx-auto text-lg text-gray-600 leading-relaxed">
-            Your complete preparation platform for UGC NET Computer Science & JRF. 
+            Your complete preparation platform for UGC NET Computer Science &amp; JRF. 
             Access organized question banks, expert-crafted materials, and realistic mock tests 
-            designed by someone who's cracked the exam multiple times.
+            designed by someone who&apos;s cracked the exam multiple times.
           </p>
           
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -183,7 +183,7 @@ export default function Home() {
               We Understand Your Challenges
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              Having faced these problems myself, I've built solutions that actually work
+              Having faced these problems myself, I&apos;ve built solutions that actually work
             </p>
           </div>
 
@@ -198,13 +198,13 @@ export default function Home() {
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="text-lg font-semibold text-red-600 mb-2">❌ The Problem</h3>
                 <p className="text-gray-700">
-                  Generic study materials that don't address NET JRF specific requirements and exam patterns.
+                  Generic study materials that don&apos;t address NET JRF specific requirements and exam patterns.
                 </p>
               </div>
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="text-lg font-semibold text-red-600 mb-2">❌ The Problem</h3>
                 <p className="text-gray-700">
-                  Mock tests that don't simulate real exam conditions or provide meaningful feedback.
+                  Mock tests that don&apos;t simulate real exam conditions or provide meaningful feedback.
                 </p>
               </div>
             </div>
