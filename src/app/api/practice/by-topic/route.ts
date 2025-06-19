@@ -14,30 +14,30 @@ export async function GET() {
           topic,
           COUNT(*) as total_questions,
           (
-            SELECT COUNT(DISTINCT qa.questionid)
-            FROM questionattempt qa
-            JOIN question q2 ON qa.questionid = q2.id
+            SELECT COUNT(DISTINCT qa."questionId")
+            FROM "QuestionAttempt" qa
+            JOIN "Question" q2 ON qa."questionId" = q2.id
             WHERE q2.topic = q.topic
           ) as attempted_questions,
           ROUND(
             CAST(
               (
-                SELECT COUNT(DISTINCT qa.questionid)
-                FROM questionattempt qa
-                JOIN question q2 ON qa.questionid = q2.id
-                WHERE q2.topic = q.topic AND qa.iscorrect = true
+                SELECT COUNT(DISTINCT qa."questionId")
+                FROM "QuestionAttempt" qa
+                JOIN "Question" q2 ON qa."questionId" = q2.id
+                WHERE q2.topic = q.topic AND qa.isCorrect = true
               ) * 100.0 / 
               NULLIF(
                 (
-                  SELECT COUNT(DISTINCT qa.questionid)
-                  FROM questionattempt qa
-                  JOIN question q2 ON qa.questionid = q2.id
+                  SELECT COUNT(DISTINCT qa."questionId")
+                  FROM "QuestionAttempt" qa
+                  JOIN "Question" q2 ON qa."questionId" = q2.id
                   WHERE q2.topic = q.topic
                 ), 0
               ) AS FLOAT
             ), 2
           ) as accuracy
-        FROM question q
+        FROM "Question" q
         GROUP BY topic
         ORDER BY topic ASC
       )

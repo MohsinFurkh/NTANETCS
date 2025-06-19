@@ -14,30 +14,30 @@ export async function GET() {
           difficulty,
           COUNT(*) as total_questions,
           (
-            SELECT COUNT(DISTINCT qa.questionid)
-            FROM questionattempt qa
-            JOIN question q2 ON qa.questionid = q2.id
+            SELECT COUNT(DISTINCT qa."questionId")
+            FROM "QuestionAttempt" qa
+            JOIN "Question" q2 ON qa."questionId" = q2.id
             WHERE q2.difficulty = q.difficulty
           ) as attempted_questions,
           ROUND(
             CAST(
               (
-                SELECT COUNT(DISTINCT qa.questionid)
-                FROM questionattempt qa
-                JOIN question q2 ON qa.questionid = q2.id
-                WHERE q2.difficulty = q.difficulty AND qa.iscorrect = true
+                SELECT COUNT(DISTINCT qa."questionId")
+                FROM "QuestionAttempt" qa
+                JOIN "Question" q2 ON qa."questionId" = q2.id
+                WHERE q2.difficulty = q.difficulty AND qa.isCorrect = true
               ) * 100.0 / 
               NULLIF(
                 (
-                  SELECT COUNT(DISTINCT qa.questionid)
-                  FROM questionattempt qa
-                  JOIN question q2 ON qa.questionid = q2.id
+                  SELECT COUNT(DISTINCT qa."questionId")
+                  FROM "QuestionAttempt" qa
+                  JOIN "Question" q2 ON qa."questionId" = q2.id
                   WHERE q2.difficulty = q.difficulty
                 ), 0
               ) AS FLOAT
             ), 2
           ) as accuracy
-        FROM question q
+        FROM "Question" q
         GROUP BY difficulty
         ORDER BY 
           CASE difficulty
