@@ -21,6 +21,7 @@ interface QuestionForm {
   topic: string;
   year: number;
   difficulty: 'Easy' | 'Medium' | 'Hard';
+  isFree: boolean;
 }
 
 const SUBJECTS = [
@@ -63,6 +64,7 @@ export default function AddNewQuestion() {
     topic: '',
     year: new Date().getFullYear(),
     difficulty: 'Medium',
+    isFree: false,
   });
 
   const [questionImageUrl, setQuestionImageUrl] = useState<string | null>(null);
@@ -73,10 +75,14 @@ export default function AddNewQuestion() {
   const [explanationImageUrl, setExplanationImageUrl] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    let newValue: string | boolean = value;
+    if (type === 'checkbox' && e.target instanceof HTMLInputElement) {
+      newValue = e.target.checked;
+    }
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'year' ? Number(value) : value,
+      [name]: name === 'year' ? Number(newValue) : newValue,
     }));
   };
 
@@ -124,6 +130,7 @@ export default function AddNewQuestion() {
         topic: '',
         year: new Date().getFullYear(),
         difficulty: 'Medium',
+        isFree: false,
       });
 
       // Redirect to questions list after successful submission
@@ -423,6 +430,21 @@ export default function AddNewQuestion() {
                 ))}
               </select>
             </div>
+          </div>
+
+          {/* Free/Premium Option */}
+          <div className="flex items-center mt-2">
+            <input
+              type="checkbox"
+              id="isFree"
+              name="isFree"
+              checked={formData.isFree}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label htmlFor="isFree" className="text-sm font-medium">
+              Make this question free
+            </label>
           </div>
 
           {/* Submit Button */}
