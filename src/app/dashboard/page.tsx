@@ -111,17 +111,17 @@ async function getStats() {
           SELECT 
             subject,
             CAST(COUNT(*) AS INTEGER) as total
-          FROM Question
+          FROM "Question"
           GROUP BY subject
         ),
         UserAttempts AS (
           SELECT 
             q.subject,
-            COUNT(DISTINCT qa.questionId) as attempted,
-            ROUND(CAST(AVG(CASE WHEN qa.isCorrect THEN 100.0 ELSE 0 END) AS FLOAT), 2) as accuracy
-          FROM Question q
-          JOIN QuestionAttempt qa ON q.id = qa.questionId
-          WHERE qa.userId = ${user.id}
+            COUNT(DISTINCT qa."questionId") as attempted,
+            ROUND(CAST(AVG(CASE WHEN qa."isCorrect" THEN 100.0 ELSE 0 END) AS FLOAT), 2) as accuracy
+          FROM "Question" q
+          JOIN "QuestionAttempt" qa ON q.id = qa."questionId"
+          WHERE qa."userId" = ${user.id}
           GROUP BY q.subject
         )
         SELECT 
@@ -139,24 +139,24 @@ async function getStats() {
         WITH RankedAttempts AS (
           SELECT 
             qa.id,
-            qa.isCorrect,
-            qa.createdAt,
+            qa."isCorrect",
+            qa."createdAt",
             q.text as questionText,
             q.subject,
-            ROW_NUMBER() OVER (PARTITION BY qa.questionId ORDER BY qa.createdAt DESC) as rn
-          FROM QuestionAttempt qa
-          JOIN Question q ON qa.questionId = q.id
-          WHERE qa.userId = ${user.id}
+            ROW_NUMBER() OVER (PARTITION BY qa."questionId" ORDER BY qa."createdAt" DESC) as rn
+          FROM "QuestionAttempt" qa
+          JOIN "Question" q ON qa."questionId" = q.id
+          WHERE qa."userId" = ${user.id}
         )
         SELECT 
           id,
-          isCorrect,
-          createdAt,
+          "isCorrect" as isCorrect,
+          "createdAt" as createdAt,
           questionText,
           subject
         FROM RankedAttempts
         WHERE rn = 1
-        ORDER BY createdAt DESC
+        ORDER BY "createdAt" DESC
         LIMIT 5
       `,
 
