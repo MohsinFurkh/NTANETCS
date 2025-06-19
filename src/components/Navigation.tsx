@@ -32,7 +32,8 @@ const Navigation: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
-            <Link href="/" className="text-2xl font-bold text-primary">
+            <Link href="/" className="text-2xl font-bold text-primary flex items-center">
+              <img src="/images/Logo.png" alt="Logo" className="h-8 w-8 mr-2 inline" />
               UGC NET CS
             </Link>
           </div>
