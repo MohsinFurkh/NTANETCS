@@ -24,7 +24,7 @@ export async function GET() {
         SELECT 
           q.subject,
           CAST(COUNT(*) AS INTEGER) as attempted,
-          ROUND(CAST(AVG(CASE WHEN qa."isCorrect" THEN 100.0 ELSE 0 END) AS FLOAT), 2) as accuracy
+          ROUND(CAST(AVG(CASE WHEN qa."isCorrect" THEN 100.0 ELSE 0 END) AS numeric), 2) as accuracy
         FROM "Question" q
         JOIN "QuestionAttempt" qa ON q.id = qa."questionId"
         WHERE qa."userId" = (SELECT id FROM "User" WHERE email = ${session.user.email})

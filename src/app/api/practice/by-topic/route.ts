@@ -20,22 +20,21 @@ export async function GET() {
             WHERE q2.topic = q.topic
           ) as attempted_questions,
           ROUND(
-            CAST(
+            (
+              SELECT COUNT(DISTINCT qa."questionId")
+              FROM "QuestionAttempt" qa
+              JOIN "Question" q2 ON qa."questionId" = q2.id
+              WHERE q2.topic = q.topic AND qa."isCorrect" = true
+            ) * 100.0 /
+            NULLIF(
               (
                 SELECT COUNT(DISTINCT qa."questionId")
                 FROM "QuestionAttempt" qa
                 JOIN "Question" q2 ON qa."questionId" = q2.id
-                WHERE q2.topic = q.topic AND qa."isCorrect" = true
-              ) * 100.0 / 
-              NULLIF(
-                (
-                  SELECT COUNT(DISTINCT qa."questionId")
-                  FROM "QuestionAttempt" qa
-                  JOIN "Question" q2 ON qa."questionId" = q2.id
-                  WHERE q2.topic = q.topic
-                ), 0
-              ) AS FLOAT
-            ), 2
+                WHERE q2.topic = q.topic
+              ), 0
+            )::numeric,
+            2
           ) as accuracy
         FROM "Question" q
         GROUP BY topic
