@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import 'katex/dist/katex.min.css';
+import { BlockMath } from 'react-katex';
 
 const ADMIN_EMAILS = ['mohsinfurkh@gmail.com', 'sayimamukhtar@gmail.com'];
 
@@ -62,12 +64,35 @@ export default function AddNewQuestion() {
     difficulty: 'Medium',
   });
 
+  const [questionImage, setQuestionImage] = useState<File | null>(null);
+  const [questionImageUrl, setQuestionImageUrl] = useState<string | null>(null);
+  const [optionAImage, setOptionAImage] = useState<File | null>(null);
+  const [optionAImageUrl, setOptionAImageUrl] = useState<string | null>(null);
+  const [optionBImage, setOptionBImage] = useState<File | null>(null);
+  const [optionBImageUrl, setOptionBImageUrl] = useState<string | null>(null);
+  const [optionCImage, setOptionCImage] = useState<File | null>(null);
+  const [optionCImageUrl, setOptionCImageUrl] = useState<string | null>(null);
+  const [optionDImage, setOptionDImage] = useState<File | null>(null);
+  const [optionDImageUrl, setOptionDImageUrl] = useState<string | null>(null);
+  const [explanationImage, setExplanationImage] = useState<File | null>(null);
+  const [explanationImageUrl, setExplanationImageUrl] = useState<string | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: name === 'year' ? Number(value) : value,
     }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, setImage: any, setImageUrl: any) => {
+    const file = e.target.files?.[0] || null;
+    setImage(file);
+    if (file) {
+      setImageUrl(URL.createObjectURL(file));
+    } else {
+      setImageUrl(null);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -151,6 +176,19 @@ export default function AddNewQuestion() {
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
             />
+            <div className="mt-2">
+              <span className="text-xs text-gray-500">LaTeX Preview:</span>
+              <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                <BlockMath math={formData.question} errorColor="#cc0000" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setQuestionImage, setQuestionImageUrl)} />
+              {questionImageUrl && (
+                <img src={questionImageUrl} alt="Question" className="mt-2 max-h-32" />
+              )}
+            </div>
           </div>
 
           {/* Options */}
@@ -168,6 +206,19 @@ export default function AddNewQuestion() {
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               />
+              <div className="mt-2">
+                <span className="text-xs text-gray-500">LaTeX Preview:</span>
+                <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                  <BlockMath math={formData.optionA} errorColor="#cc0000" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionAImage, setOptionAImageUrl)} />
+                {optionAImageUrl && (
+                  <img src={optionAImageUrl} alt="Option A" className="mt-2 max-h-24" />
+                )}
+              </div>
             </div>
             <div>
               <label htmlFor="optionB" className="block text-sm font-medium text-gray-700">
@@ -182,6 +233,19 @@ export default function AddNewQuestion() {
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               />
+              <div className="mt-2">
+                <span className="text-xs text-gray-500">LaTeX Preview:</span>
+                <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                  <BlockMath math={formData.optionB} errorColor="#cc0000" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionBImage, setOptionBImageUrl)} />
+                {optionBImageUrl && (
+                  <img src={optionBImageUrl} alt="Option B" className="mt-2 max-h-24" />
+                )}
+              </div>
             </div>
             <div>
               <label htmlFor="optionC" className="block text-sm font-medium text-gray-700">
@@ -196,6 +260,19 @@ export default function AddNewQuestion() {
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               />
+              <div className="mt-2">
+                <span className="text-xs text-gray-500">LaTeX Preview:</span>
+                <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                  <BlockMath math={formData.optionC} errorColor="#cc0000" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionCImage, setOptionCImageUrl)} />
+                {optionCImageUrl && (
+                  <img src={optionCImageUrl} alt="Option C" className="mt-2 max-h-24" />
+                )}
+              </div>
             </div>
             <div>
               <label htmlFor="optionD" className="block text-sm font-medium text-gray-700">
@@ -210,6 +287,19 @@ export default function AddNewQuestion() {
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               />
+              <div className="mt-2">
+                <span className="text-xs text-gray-500">LaTeX Preview:</span>
+                <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                  <BlockMath math={formData.optionD} errorColor="#cc0000" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+                <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionDImage, setOptionDImageUrl)} />
+                {optionDImageUrl && (
+                  <img src={optionDImageUrl} alt="Option D" className="mt-2 max-h-24" />
+                )}
+              </div>
             </div>
           </div>
 
@@ -247,6 +337,19 @@ export default function AddNewQuestion() {
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
             />
+            <div className="mt-2">
+              <span className="text-xs text-gray-500">LaTeX Preview:</span>
+              <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                <BlockMath math={formData.explanation} errorColor="#cc0000" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setExplanationImage, setExplanationImageUrl)} />
+              {explanationImageUrl && (
+                <img src={explanationImageUrl} alt="Explanation" className="mt-2 max-h-32" />
+              )}
+            </div>
           </div>
 
           {/* Subject and Topic */}

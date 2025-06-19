@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import React from "react";
+import 'katex/dist/katex.min.css';
+import { BlockMath } from 'react-katex';
 
 const DIFFICULTY_LEVELS = ["Easy", "Medium", "Hard"];
 
@@ -27,6 +29,18 @@ export default function EditQuestionPage() {
     difficulty: "Medium",
     isFree: false,
   });
+  const [questionImage, setQuestionImage] = useState<File | null>(null);
+  const [questionImageUrl, setQuestionImageUrl] = useState<string | null>(null);
+  const [optionAImage, setOptionAImage] = useState<File | null>(null);
+  const [optionAImageUrl, setOptionAImageUrl] = useState<string | null>(null);
+  const [optionBImage, setOptionBImage] = useState<File | null>(null);
+  const [optionBImageUrl, setOptionBImageUrl] = useState<string | null>(null);
+  const [optionCImage, setOptionCImage] = useState<File | null>(null);
+  const [optionCImageUrl, setOptionCImageUrl] = useState<string | null>(null);
+  const [optionDImage, setOptionDImage] = useState<File | null>(null);
+  const [optionDImageUrl, setOptionDImageUrl] = useState<string | null>(null);
+  const [explanationImage, setExplanationImage] = useState<File | null>(null);
+  const [explanationImageUrl, setExplanationImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchQuestion() {
@@ -69,6 +83,16 @@ export default function EditQuestionPage() {
       ...prev,
       [name]: newValue,
     }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, setImage: any, setImageUrl: any) => {
+    const file = e.target.files?.[0] || null;
+    setImage(file);
+    if (file) {
+      setImageUrl(URL.createObjectURL(file));
+    } else {
+      setImageUrl(null);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -114,23 +138,88 @@ export default function EditQuestionPage() {
             onChange={handleChange}
             className="input w-full"
           />
+          <div className="mt-2">
+            <span className="text-xs text-gray-500">LaTeX Preview:</span>
+            <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+              <BlockMath math={form.text} errorColor="#cc0000" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+            <input type="file" accept="image/*" onChange={e => handleImageChange(e, setQuestionImage, setQuestionImageUrl)} />
+            {questionImageUrl && (
+              <img src={questionImageUrl} alt="Question" className="mt-2 max-h-32" />
+            )}
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium">Option A</label>
             <input name="optionA" type="text" required value={form.optionA} onChange={handleChange} className="input w-full" />
+            <div className="mt-2">
+              <span className="text-xs text-gray-500">LaTeX Preview:</span>
+              <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                <BlockMath math={form.optionA} errorColor="#cc0000" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionAImage, setOptionAImageUrl)} />
+              {optionAImageUrl && (
+                <img src={optionAImageUrl} alt="Option A" className="mt-2 max-h-24" />
+              )}
+            </div>
           </div>
           <div>
             <label className="block text-sm font-medium">Option B</label>
             <input name="optionB" type="text" required value={form.optionB} onChange={handleChange} className="input w-full" />
+            <div className="mt-2">
+              <span className="text-xs text-gray-500">LaTeX Preview:</span>
+              <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                <BlockMath math={form.optionB} errorColor="#cc0000" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionBImage, setOptionBImageUrl)} />
+              {optionBImageUrl && (
+                <img src={optionBImageUrl} alt="Option B" className="mt-2 max-h-24" />
+              )}
+            </div>
           </div>
           <div>
             <label className="block text-sm font-medium">Option C</label>
             <input name="optionC" type="text" required value={form.optionC} onChange={handleChange} className="input w-full" />
+            <div className="mt-2">
+              <span className="text-xs text-gray-500">LaTeX Preview:</span>
+              <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                <BlockMath math={form.optionC} errorColor="#cc0000" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionCImage, setOptionCImageUrl)} />
+              {optionCImageUrl && (
+                <img src={optionCImageUrl} alt="Option C" className="mt-2 max-h-24" />
+              )}
+            </div>
           </div>
           <div>
             <label className="block text-sm font-medium">Option D</label>
             <input name="optionD" type="text" required value={form.optionD} onChange={handleChange} className="input w-full" />
+            <div className="mt-2">
+              <span className="text-xs text-gray-500">LaTeX Preview:</span>
+              <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+                <BlockMath math={form.optionD} errorColor="#cc0000" />
+              </div>
+            </div>
+            <div className="mt-2">
+              <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+              <input type="file" accept="image/*" onChange={e => handleImageChange(e, setOptionDImage, setOptionDImageUrl)} />
+              {optionDImageUrl && (
+                <img src={optionDImageUrl} alt="Option D" className="mt-2 max-h-24" />
+              )}
+            </div>
           </div>
         </div>
         <div>
@@ -145,6 +234,19 @@ export default function EditQuestionPage() {
         <div>
           <label className="block text-sm font-medium mb-2">Explanation</label>
           <textarea name="explanation" rows={2} required value={form.explanation} onChange={handleChange} className="input w-full" />
+          <div className="mt-2">
+            <span className="text-xs text-gray-500">LaTeX Preview:</span>
+            <div className="border rounded p-2 bg-gray-50 min-h-[2rem]">
+              <BlockMath math={form.explanation} errorColor="#cc0000" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <label className="block text-xs font-medium text-gray-500">Optional Image</label>
+            <input type="file" accept="image/*" onChange={e => handleImageChange(e, setExplanationImage, setExplanationImageUrl)} />
+            {explanationImageUrl && (
+              <img src={explanationImageUrl} alt="Explanation" className="mt-2 max-h-32" />
+            )}
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>

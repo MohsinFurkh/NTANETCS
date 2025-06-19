@@ -200,6 +200,12 @@ export default function AdminDashboard() {
         >
           Manage Users
         </Link>
+        <Link 
+          href="/admin/questions"
+          className="btn btn-secondary w-full"
+        >
+          Manage Questions
+        </Link>
       </div>
     </div>
   );
