@@ -50,7 +50,7 @@ export default function EditQuestionPage() {
           difficulty: data.difficulty,
           isFree: data.isFree,
         });
-      } catch (err) {
+      } catch {
         setError("Could not load question.");
       } finally {
         setLoading(false);
@@ -84,7 +84,7 @@ export default function EditQuestionPage() {
       if (!res.ok) throw new Error("Failed to update question");
       setSuccess(true);
       setTimeout(() => router.push("/admin/questions"), 1500);
-    } catch (err) {
+    } catch {
       setError("Could not update question.");
     }
   };

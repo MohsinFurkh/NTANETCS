@@ -16,6 +16,22 @@ interface QuestionForm {
   isFree: boolean;
 }
 
+interface Question {
+  id: string;
+  text: string;
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
+  correctOption: string;
+  explanation: string;
+  year: number;
+  subject: string;
+  topic: string;
+  difficulty: string;
+  isFree: boolean;
+}
+
 const initialForm: QuestionForm = {
   text: '',
   options: ['', '', '', ''],
@@ -32,7 +48,7 @@ export default function AdminQuestions() {
   const [form, setForm] = useState<QuestionForm>(initialForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [loadingQuestions, setLoadingQuestions] = useState(true);
   const router = useRouter();
 
@@ -44,7 +60,7 @@ export default function AdminQuestions() {
         if (!res.ok) throw new Error('Failed to fetch questions');
         const data = await res.json();
         setQuestions(data);
-      } catch (err) {
+      } catch {
         setQuestions([]);
       } finally {
         setLoadingQuestions(false);
