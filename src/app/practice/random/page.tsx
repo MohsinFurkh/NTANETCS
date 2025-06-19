@@ -15,7 +15,7 @@ export default function RandomQuestionPage() {
         if (!res.ok) throw new Error('Failed to fetch random question');
         const data = await res.json();
         setQuestionId(data.id);
-      } catch (err) {
+      } catch {
         setError('Could not load random question.');
       } finally {
         setLoading(false);

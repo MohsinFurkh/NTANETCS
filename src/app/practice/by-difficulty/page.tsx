@@ -22,7 +22,7 @@ export default function ByDifficultyPage() {
         if (!res.ok) throw new Error('Failed to fetch difficulty stats');
         const data = await res.json();
         setDifficultyStats(data);
-      } catch (err) {
+      } catch {
         setError('Could not load difficulty stats.');
       } finally {
         setLoading(false);

@@ -20,7 +20,12 @@ export async function GET() {
     }
 
     // Progress by subject
-    const subjectProgress = await prisma.$queryRaw<any[]>`
+    const subjectProgress = await prisma.$queryRaw<Array<{
+      subject: string;
+      totalQuestions: number;
+      attempted: number;
+      accuracy: number;
+    }>>`
       WITH SubjectCounts AS (
         SELECT 
           subject,

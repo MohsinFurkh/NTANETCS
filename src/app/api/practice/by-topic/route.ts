@@ -3,7 +3,12 @@ import prisma from '@/lib/prisma';
 
 export async function GET() {
   try {
-    const topics = await prisma.$queryRaw<any[]>`
+    const topics = await prisma.$queryRaw<Array<{
+      topic: string;
+      total_questions: number;
+      attempted_questions: number;
+      accuracy: number;
+    }>>`
       WITH TopicStats AS (
         SELECT 
           topic,

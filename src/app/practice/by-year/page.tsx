@@ -22,7 +22,7 @@ export default function ByYearPage() {
         if (!res.ok) throw new Error('Failed to fetch year stats');
         const data = await res.json();
         setYearStats(data);
-      } catch (err) {
+      } catch {
         setError('Could not load year stats.');
       } finally {
         setLoading(false);

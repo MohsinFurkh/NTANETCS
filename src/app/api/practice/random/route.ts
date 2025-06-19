@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 export async function GET() {
   try {
     // For demo, just return a random question id (no user context)
-    const question = await prisma.$queryRaw<any[]>`
+    const question = await prisma.$queryRaw<Array<{ id: string }>>`
       SELECT id
       FROM question
       ORDER BY RANDOM()

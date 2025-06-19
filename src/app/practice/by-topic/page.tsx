@@ -22,7 +22,7 @@ export default function ByTopicPage() {
         if (!res.ok) throw new Error('Failed to fetch topic stats');
         const data = await res.json();
         setTopicStats(data);
-      } catch (err) {
+      } catch {
         setError('Could not load topic stats.');
       } finally {
         setLoading(false);

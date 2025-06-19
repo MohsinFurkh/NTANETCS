@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
+import Image from 'next/image'
 
 const ADMIN_EMAILS = ['mohsinfurkh@gmail.com', 'sayimamukhtar@gmail.com'];
 
@@ -33,7 +34,7 @@ const Navigation: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
             <Link href="/" className="text-2xl font-bold text-primary flex items-center">
-              <img src="/images/Logo.png" alt="Logo" className="h-8 w-8 mr-2 inline" />
+              <Image src="/images/Logo.png" alt="Logo" width={32} height={32} className="h-8 w-8 mr-2 inline" />
               UGC NET CS
             </Link>
           </div>
