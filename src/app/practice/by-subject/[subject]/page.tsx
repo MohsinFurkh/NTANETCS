@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { use } from 'react';
+import { BlockMath } from 'react-katex';
 
 interface Question {
   id: string;
@@ -151,7 +152,9 @@ export default function SubjectQuestionPage({ params }: { params: Promise<{ subj
         {/* Question */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <div className="flex justify-between items-start mb-4">
-            <h2 className="text-lg font-medium flex-1 pr-4">{currentQuestion.text}</h2>
+            <h2 className="text-lg font-medium flex-1 pr-4">
+              <BlockMath math={currentQuestion.text} />
+            </h2>
             <span className="px-2 py-1 text-sm rounded bg-gray-100 text-gray-600">
               {currentQuestion.difficulty}
             </span>
@@ -173,7 +176,7 @@ export default function SubjectQuestionPage({ params }: { params: Promise<{ subj
                 } ${selectedOption ? 'cursor-default' : 'cursor-pointer'}`}
               >
                 <span className="font-medium">{option}.</span>{' '}
-                {currentQuestion[`option${option}` as keyof Question]}
+                <BlockMath math={currentQuestion[`option${option}` as keyof Question] as string} />
               </button>
             ))}
           </div>
@@ -185,7 +188,7 @@ export default function SubjectQuestionPage({ params }: { params: Promise<{ subj
             isCorrect ? 'border-green-500' : 'border-red-500'
           }`}>
             <h3 className="font-medium mb-2">Explanation</h3>
-            <p className="text-gray-600">{currentQuestion.explanation}</p>
+            <BlockMath math={currentQuestion.explanation} />
           </div>
         )}
 
