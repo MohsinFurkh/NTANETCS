@@ -25,7 +25,7 @@ export async function GET() {
                 SELECT COUNT(DISTINCT qa."questionId")
                 FROM "QuestionAttempt" qa
                 JOIN "Question" q2 ON qa."questionId" = q2.id
-                WHERE q2.year = q.year AND qa.isCorrect = true
+                WHERE q2.year = q.year AND qa."isCorrect" = true
               ) * 100.0 / 
               NULLIF(
                 (
