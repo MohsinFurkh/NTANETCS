@@ -17,17 +17,17 @@ export async function GET() {
         SELECT 
           subject,
           CAST(COUNT(*) AS INTEGER) as totalQuestions
-        FROM Question
+        FROM question
         GROUP BY subject
       ),
       UserAttempts AS (
         SELECT 
           q.subject,
           CAST(COUNT(*) AS INTEGER) as attempted,
-          ROUND(CAST(AVG(CASE WHEN qa.isCorrect THEN 100.0 ELSE 0 END) AS FLOAT), 2) as accuracy
-        FROM Question q
-        JOIN QuestionAttempt qa ON q.id = qa.questionId
-        WHERE qa.userId = (SELECT id FROM User WHERE email = ${session.user.email})
+          ROUND(CAST(AVG(CASE WHEN qa.iscorrect THEN 100.0 ELSE 0 END) AS FLOAT), 2) as accuracy
+        FROM question q
+        JOIN questionattempt qa ON q.id = qa.questionid
+        WHERE qa.userid = (SELECT id FROM user WHERE email = ${session.user.email})
         GROUP BY q.subject
       )
       SELECT 
