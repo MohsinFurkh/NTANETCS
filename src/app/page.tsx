@@ -103,7 +103,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Realistic Mock Tests</h3>
               <p className="text-gray-600 mb-4">
-                Full-length mock tests that simulate actual exam conditions. Practice with the same time pressure you'll face.
+                Full-length mock tests that simulate actual exam conditions. Practice with the same time pressure you&apos;ll face.
               </p>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-500 mr-2" />Exact exam format</li>
