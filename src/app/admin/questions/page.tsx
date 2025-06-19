@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface QuestionForm {
   text: string;
@@ -31,7 +32,26 @@ export default function AdminQuestions() {
   const [form, setForm] = useState<QuestionForm>(initialForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [loadingQuestions, setLoadingQuestions] = useState(true);
   const router = useRouter();
+
+  useEffect(() => {
+    async function fetchQuestions() {
+      setLoadingQuestions(true);
+      try {
+        const res = await fetch('/api/admin/questions');
+        if (!res.ok) throw new Error('Failed to fetch questions');
+        const data = await res.json();
+        setQuestions(data);
+      } catch (err) {
+        setQuestions([]);
+      } finally {
+        setLoadingQuestions(false);
+      }
+    }
+    fetchQuestions();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -225,6 +245,59 @@ export default function AdminQuestions() {
           {isSubmitting ? 'Adding Question...' : 'Add Question'}
         </button>
       </form>
+
+      {/* Questions Table */}
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold mb-4">All Questions</h2>
+        {loadingQuestions ? (
+          <div>Loading questions...</div>
+        ) : questions.length === 0 ? (
+          <div>No questions found.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 text-xs">
+              <thead>
+                <tr>
+                  <th className="px-2 py-2">Text</th>
+                  <th className="px-2 py-2">A</th>
+                  <th className="px-2 py-2">B</th>
+                  <th className="px-2 py-2">C</th>
+                  <th className="px-2 py-2">D</th>
+                  <th className="px-2 py-2">Answer</th>
+                  <th className="px-2 py-2">Explanation</th>
+                  <th className="px-2 py-2">Year</th>
+                  <th className="px-2 py-2">Subject</th>
+                  <th className="px-2 py-2">Topic</th>
+                  <th className="px-2 py-2">Difficulty</th>
+                  <th className="px-2 py-2">Free?</th>
+                  <th className="px-2 py-2">Edit</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {questions.map((q) => (
+                  <tr key={q.id}>
+                    <td className="px-2 py-2 max-w-xs truncate" title={q.text}>{q.text}</td>
+                    <td className="px-2 py-2" title={q.optionA}>{q.optionA}</td>
+                    <td className="px-2 py-2" title={q.optionB}>{q.optionB}</td>
+                    <td className="px-2 py-2" title={q.optionC}>{q.optionC}</td>
+                    <td className="px-2 py-2" title={q.optionD}>{q.optionD}</td>
+                    <td className="px-2 py-2">{q.correctOption}</td>
+                    <td className="px-2 py-2 max-w-xs truncate" title={q.explanation}>{q.explanation}</td>
+                    <td className="px-2 py-2">{q.year}</td>
+                    <td className="px-2 py-2">{q.subject}</td>
+                    <td className="px-2 py-2">{q.topic}</td>
+                    <td className="px-2 py-2">{q.difficulty}</td>
+                    <td className="px-2 py-2">{q.isFree ? 'Yes' : 'No'}</td>
+                    <td className="px-2 py-2">
+                      <Link href={`/admin/questions/edit/${q.id}`} className="btn btn-xs btn-secondary">Edit</Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 } 
